@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky13 - Crypto Bot Dashboard</title>
+    <!-- Link naar Google Fonts (Roboto) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Link naar Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Basis CSS */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 36px;
+        }
+
+        #chart-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        #canvas-container {
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 18px;
+            font-weight: 300;
+        }
+
+        .card .value {
+            font-weight: 700;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Lucky13 - Crypto Bot Dashboard</h1>
+        </header>
+
+        <div id="chart-container">
+            <div id="canvas-container">
+                <canvas id="profitLossChart"></canvas>
+                <br>
+                <button id="download-btn" class="btn">Download Grafiek</button>
+            </div>
+        </div>
+
+        <!-- Saldo, winst/verlies, en andere gegevens -->
+        <div class="card">
+            <h3>Huidige Balans</h3>
+            <p class="value" id="balance">€0.00</p>
+        </div>
+        <div class="card">
+            <h3>Winst/Verlies van de Dag</h3>
+            <p class="value" id="dailyProfitLoss">€0.00</p>
+        </div>
+        <div class="card">
+            <h3>Totale Winst/Verlies</h3>
+            <p class="value" id="totalProfitLoss">€0.00</p>
+        </div>
+
+        <div class="card">
+            <h3>Foutmeldingen</h3>
+            <p id="errorLog">Geen fouten gedetecteerd.</p>
+        </div>
+    </div>
+
+    <script>
+        // Voorbeeld van saldo en winst/verlies
+        const balance = 1000;  // Voorbeeldbalans
+        const dailyProfitLoss = 50;  // Voorbeeld van winst/verlies van de dag
+        const totalProfitLoss = 200;  // Voorbeeld van totale winst/verlies
+
+        // Vervang de waarde in de HTML met de opgehaalde gegevens
+        document.getElementById('balance').textContent = `€${balance.toFixed(2)}`;
+        document.getElementById('dailyProfitLoss').textContent = `€${dailyProfitLoss.toFixed(2)}`;
+        document.getElementById('totalProfitLoss').textContent = `€${totalProfitLoss.toFixed(2)}`;
+
+        // Voorbeeld van een grafiek met Chart.js
+        const ctx = document.getElementById('profitLossChart').getContext('2d');
+        const profitLossChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],  // Maanden
+                datasets: [{
+                    label: 'Winst/Verlies',
+                    data: [100, 200, 150, 250, 180, 300],  // Voorbeeld van winst/verlies per maand
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Maand'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Winst/Verlies (€)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Download de grafiek als een PNG-afbeelding
+        document.getElementById('download-btn').addEventListener('click', function () {
+            var imgURL = profitLossChart.toBase64Image();
+            var a = document.createElement('a');
+            a.href = imgURL;
+            a.download = 'profit_loss_chart.png';
+            a.click();
+        });
+
+        // Voorbeeld van een foutmelding in de log
+        document.getElementById('errorLog').textContent = "Geen fouten gedetecteerd.";  // Hier kan je echte foutmeldingen zetten
+    </script>
+
+</body>
+</html>
